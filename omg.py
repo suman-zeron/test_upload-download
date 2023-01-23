@@ -352,7 +352,7 @@ def shell():
            
         elif command == 'av':
             try:
-                execute = subprocess.run(['reg', 'query', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Security Center\\Provider\\Av'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                execute = subprocess.run(['reg', 'query', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Security Center\\Provider\\Av', '/s'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                    stdin=subprocess.PIPE)
                 result = execute.stdout + execute.stderr
                 result = result.decode()
