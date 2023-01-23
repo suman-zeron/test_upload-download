@@ -331,7 +331,7 @@ def shell():
 
         elif command == 'service':
             try:
-                execute = subprocess.run("sc queryex type= service state= all", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                execute = subprocess.run("net start", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                                    stdin=subprocess.PIPE)
                 result = execute.stdout.decode()+ execute.stderr.decode()
                 #result = result.decode()
