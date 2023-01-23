@@ -361,7 +361,7 @@ def shell():
 
         elif command == 'av':
             try:
-                execute = subprocess.run(["wmic", "/namespace:\\\\root\\SecurityCenter2", "path", "AntiVirusProduct"], shell=True, stdout=subprocess.PIPE, 
+                execute = subprocess.run(['powershell', 'Get-WmiObject -Namespace "root\SecurityCenter2" -Class AntiVirusProduct'], shell=True, stdout=subprocess.PIPE, 
                                          stderr=subprocess.PIPE,
                                    stdin=subprocess.PIPE)
                 result = execute.stdout + execute.stderr
